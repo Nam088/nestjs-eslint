@@ -1,0 +1,66 @@
+{
+  "name": "@ecom-co/eslint",
+  "version": "2.0.0",
+  "description": "Shared ESLint configuration for e-commerce projects",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./base": {
+      "import": "./dist/configs/base.js",
+      "types": "./dist/configs/base.d.ts"
+    },
+    "./nestjs": {
+      "import": "./dist/configs/nestjs.js",
+      "types": "./dist/configs/nestjs.d.ts"
+    },
+    "./strict": {
+      "import": "./dist/configs/strict.js",
+      "types": "./dist/configs/strict.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "eslint",
+    "eslint-config",
+    "typescript",
+    "nestjs",
+    "javascript"
+  ],
+  "author": "E-commerce Team",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0",
+    "eslint-import-resolver-typescript": "^4.3.4",
+    "eslint-plugin-import-x": "^4.11.1",
+    "eslint-plugin-jest": "^28.11.0",
+    "eslint-plugin-jsdoc": "^50.6.11",
+    "eslint-plugin-lodash": "^8.0.0",
+    "eslint-plugin-prettier": "^5.2.2",
+    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-sonarjs": "^3.0.2",
+    "eslint-plugin-sort-class-members": "^1.21.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "globals": "^16.0.0",
+    "typescript-eslint": "^8.20.0"
+  },
+  "devDependencies": {
+    "@types/eslint": "^9.6.1",
+    "typescript": "^5.7.3",
+    "@typescript-eslint/utils": "^8.20.0"
+  }
+}
