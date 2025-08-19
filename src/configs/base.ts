@@ -106,7 +106,7 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
         // Disable perfectionist sort-imports in favor of import-x
         'perfectionist/sort-imports': 'off',
         // Paths plugin - auto-fix imports to use aliases from tsconfig (zero-config)
-        'paths/use-alias': 'error',
+        'paths/alias': 'error',
         'unused-imports/no-unused-imports': 'error',
         'unused-imports/no-unused-vars': [
           'warn',
