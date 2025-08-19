@@ -139,11 +139,12 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
             fixMixedExportsWithInlineTypeSpecifier: true,
           },
         ],
-        '@typescript-eslint/lines-between-class-members': [
+        '@stylistic/lines-between-class-members': [
           'error',
           'always',
           {
             exceptAfterSingleLine: true,
+            exceptAfterOverload: true,
           },
         ],
         'padding-line-between-statements': [
