@@ -151,39 +151,41 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
         ],
         'padding-line-between-statements': [
           'error',
+          // Control flow statements
           { blankLine: 'always', prev: 'if', next: '*' },
           { blankLine: 'always', prev: '*', next: 'if' },
-
           { blankLine: 'always', prev: 'for', next: '*' },
           { blankLine: 'always', prev: '*', next: 'for' },
-
           { blankLine: 'always', prev: 'while', next: '*' },
           { blankLine: 'always', prev: '*', next: 'while' },
-
           { blankLine: 'always', prev: 'switch', next: '*' },
           { blankLine: 'always', prev: '*', next: 'switch' },
-
           { blankLine: 'always', prev: 'try', next: '*' },
           { blankLine: 'always', prev: '*', next: 'try' },
-
-          { blankLine: 'always', prev: 'catch', next: '*' },
-          { blankLine: 'always', prev: '*', next: 'catch' },
-
-          { blankLine: 'always', prev: 'finally', next: '*' },
-          { blankLine: 'always', prev: '*', next: 'finally' },
-
+          
+          // Variable declarations
           { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
-          { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] }, // cho phép nhiều biến liên tục
-
+          { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] }, // Allow multiple variables together
+          
+          // Return statements
           { blankLine: 'always', prev: '*', next: 'return' },
-
+          
+          // Exports
           { blankLine: 'always', prev: '*', next: 'export' },
-
+          
+          // Functions and classes
           { blankLine: 'always', prev: '*', next: ['function', 'class'] },
           { blankLine: 'always', prev: ['function', 'class'], next: '*' },
-
+          
+          // Switch cases
           { blankLine: 'always', prev: 'case', next: '*' },
           { blankLine: 'always', prev: '*', next: 'case' },
+          { blankLine: 'always', prev: 'default', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'default' },
+          
+          // Block-like statements
+          { blankLine: 'always', prev: 'block-like', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'block-like' },
         ],
       },
     },
