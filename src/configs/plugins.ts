@@ -514,7 +514,6 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
             'name-property', 
             'identifier-property',
             'status-property',
-
            
             'imports',
             'controllers', 
