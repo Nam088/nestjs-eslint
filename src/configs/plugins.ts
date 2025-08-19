@@ -137,16 +137,16 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
             'foreign-key-property',
             'relation-property',
             
-            // Entity: CRUD timestamps (Create → Update → Delete)
-            'create-timestamp-property',
-            'update-timestamp-property',
-            'delete-timestamp-property',
-            
             // Entity: User tracking properties (Create → Upload → Update → Delete)
             'create-user-tracking-property',
             'upload-user-tracking-property',
             'update-user-tracking-property',
             'delete-user-tracking-property',
+
+            // Entity: CRUD timestamps (Create → Update → Delete)
+            'create-timestamp-property',
+            'update-timestamp-property',
+            'delete-timestamp-property',
             
             // Entity: Other timestamps
             'other-timestamp-property',
@@ -559,11 +559,6 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
             'identifier-property',
             'status-property',
             
-            // CRUD timestamps (Create → Read → Update → Delete)
-            'create-timestamp-property',
-            'update-timestamp-property',
-            'delete-timestamp-property',
-            
             'imports',
             'controllers', 
             'providers',
@@ -581,6 +576,11 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
             'upload-user-tracking-property',
             'update-user-tracking-property',
             'delete-user-tracking-property',
+            
+            // CRUD timestamps (Create → Update → Delete)
+            'create-timestamp-property',
+            'update-timestamp-property',
+            'delete-timestamp-property',
             
             // Other timestamps
             'other-timestamp-property',
