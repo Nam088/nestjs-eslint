@@ -9,6 +9,10 @@ Shared ESLint configuration library for e-commerce projects. This package provid
 - 📦 **Zero Config**: Works out of the box with sensible defaults
 - 🚀 **TypeScript First**: Built with TypeScript support in mind
 - 🧩 **Modular**: Use individual plugin configurations as needed
+- 🎨 **Advanced Sorting**: Perfectionist plugin with 4 sorting types and custom class member organization
+- 🏗️ **NestJS Optimized**: Smart class member sorting for entities and services
+- 📏 **Code Formatting**: Consistent spacing and formatting rules with @stylistic
+- 🔒 **Type Safety**: Enhanced TypeScript rules and consistent type imports/exports
 
 ## Installation
 
@@ -83,6 +87,13 @@ interface EcomESLintOptions {
   /** Enable Lodash optimization rules */
   lodash?: boolean;
   
+  /** Perfectionist configuration */
+  perfectionist?: {
+    enabled: boolean;
+    type?: 'recommended-alphabetical' | 'recommended-natural' | 'recommended-line-length' | 'recommended-custom';
+    partitionByComment?: boolean;
+  };
+  
   /** Additional ignore patterns */
   ignores?: string[];
   
@@ -112,8 +123,20 @@ export default createBaseConfig({
   rules: {
     'no-console': 'off',
     '@typescript-eslint/no-explicit-any': 'error',
-    // Prefer perfectionist in this package
-    'perfectionist/sort-imports': 'error',
+  },
+});
+```
+
+### Perfectionist Configuration
+
+```javascript
+import { createBaseConfig } from '@ecom-co/eslint';
+
+export default createBaseConfig({
+  perfectionist: {
+    enabled: true,
+    type: 'recommended-alphabetical', // alphabetical, natural, line-length, custom
+    partitionByComment: true, // Add blank lines between groups
   },
 });
 ```
@@ -165,22 +188,28 @@ import {
   createBaseConfig,
   createNestJSConfig,
   createStrictConfig,
-  createPerfectionistConfig,
   mergeConfigs,
 } from '@ecom-co/eslint';
 
 export default mergeConfigs(
   createBaseConfig({
-    perfectionist: true,
+    perfectionist: {
+      enabled: true,
+      type: 'recommended-alphabetical',
+      partitionByComment: true,
+    },
   }),
-  createPerfectionistConfig({ perfectionist: true }),
   createNestJSConfig({
     jest: true,
     security: true,
     sonarjs: true,
     lodash: true,
     nestjs: true,
-    perfectionist: true,
+    perfectionist: {
+      enabled: true,
+      type: 'recommended-alphabetical',
+      partitionByComment: true,
+    },
   }),
   createStrictConfig({ jsdoc: true }),
 );
@@ -197,11 +226,14 @@ export default createNestJSConfig({
     'src/generated/**',
     'src/legacy/**',
   ],
+  perfectionist: {
+    enabled: true,
+    type: 'recommended-natural', // Use natural sorting for this project
+    partitionByComment: false, // Disable partition by comment
+  },
   rules: {
     // Disable specific rules for this project
     'sonarjs/cognitive-complexity': 'off',
-    
-    // Project-specific import patterns – use perfectionist groups/customGroups instead
   },
 });
 ```
@@ -210,15 +242,19 @@ export default createNestJSConfig({
 
 ### Base Configuration (`@ecom-co/eslint`)
 - Essential TypeScript rules
-- Import organization
-- Code formatting
+- Import organization with `import-x`
+- Code formatting with `@stylistic`
 - Performance optimizations
 - Basic security rules
+- Perfectionist sorting (optional)
 
 ### NestJS Configuration (`@ecom-co/eslint/nestjs`)
 - All base rules
 - NestJS-specific patterns
-- Class member organization
+- **Advanced Class Member Organization**:
+  - Entity properties: `id` → `name` → `identifier` → `status` → regular properties → foreign keys → relations → user tracking → timestamps
+  - Service methods: Lifecycle hooks → CRUD methods (Create → Read → Update → Delete) → Business logic → Utility methods
+  - `@Module` decorator sorting: `imports` → `controllers` → `providers` → `exports`
 - Decorator support
 - Testing configuration
 
@@ -228,6 +264,88 @@ export default createNestJSConfig({
 - Mandatory JSDoc
 - Complexity limits
 - Enhanced security rules
+
+## Perfectionist Features
+
+### Sorting Types
+- **`recommended-alphabetical`**: Sort alphabetically (default)
+- **`recommended-natural`**: Natural sorting (handles numbers correctly)
+- **`recommended-line-length`**: Sort by line length
+- **`recommended-custom`**: Custom sorting patterns
+
+### Class Member Organization (NestJS)
+
+**Entity Classes:**
+```typescript
+class User {
+  // Core properties (first)
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+  
+  // Regular properties
+  avatar: string;
+  bio: string;
+  
+  // Foreign keys & relations
+  roleId: number;
+  @OneToMany(() => Post, post => post.author)
+  posts: Post[];
+  
+  // User tracking
+  createdBy: number;
+  updatedBy: number;
+  
+  // Timestamps (last)
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date;
+}
+```
+
+**Service Classes:**
+```typescript
+class UserService {
+  // Lifecycle hooks
+  onModuleInit() {}
+  
+  // CRUD methods (Create → Read → Update → Delete)
+  create() {}
+  find() {}
+  get() {}
+  list() {}
+  update() {}
+  delete() {}
+  remove() {}
+  
+  // Business logic
+  activate() {}
+  deactivate() {}
+  
+  // Utility methods
+  format() {}
+  validate() {}
+}
+```
+
+## Code Quality Features
+
+### Spacing & Formatting
+- **Class member spacing**: Blank lines between class methods
+- **Statement spacing**: Blank lines around control flow statements (if, for, while, try, etc.)
+- **Import/Export spacing**: Consistent spacing around imports and exports
+
+### Type Safety
+- **Consistent type imports**: Enforce `import type` for type-only imports
+- **Consistent type exports**: Enforce `export type` for type-only exports
+- **Strict TypeScript**: Enhanced type checking rules
+
+### Performance & Best Practices
+- **Magic numbers**: Prevent hardcoded numbers without explanation
+- **Object spread**: Prefer object spread over Object.assign
+- **Async/await**: Enforce proper async/await usage
+- **Promise handling**: Prevent common promise anti-patterns
 
 ## Individual Plugin Configurations
 

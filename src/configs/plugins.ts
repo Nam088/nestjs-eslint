@@ -118,63 +118,142 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
             ['private-static-property', 'private-static-accessor-property'],
             ['private-static-get-method', 'private-static-set-method'],
             'static-block',
-            // Entity: ID properties first
+            
+            // Entity: Core properties theo thứ tự ưu tiên
             'id-property',
+            'name-property',
+            'identifier-property',
+            'status-property',
+            
+            // Regular properties
             ['property', 'accessor-property'],
             ['get-method', 'set-method'],
             ['protected-property', 'protected-accessor-property'],
             ['protected-get-method', 'protected-set-method'],
             ['private-property', 'private-accessor-property'],
             ['private-get-method', 'private-set-method'],
-            // Entity: Timestamps last
+            
+            // Entity: References và relationships
+            'foreign-key-property',
+            'relation-property',
+            
+            // Entity: Tracking properties
+            'user-tracking-property',
             'timestamp-property',
+            
             'constructor',
+            
+            // Static methods
             ['static-method', 'static-function-property'],
             ['protected-static-method', 'protected-static-function-property'],
             ['private-static-method', 'private-static-function-property'],
-            // Service: CRUD methods first theo thứ tự logic
+            
+            // Lifecycle hooks
+            'lifecycle-hook',
+            
+            // Service: CRUD methods theo thứ tự logic
             'create-method',
-            'read-method', 
+            'read-method',
             'update-method',
             'delete-method',
+            
+            // Business logic methods
+            'business-method',
+            'utility-method',
+            
+            // Regular methods
             ['method', 'function-property'],
             ['protected-method', 'protected-function-property'],
             ['private-method', 'private-function-property'],
+            
             'unknown',
           ],
           customGroups: [
-            // Entity: ID property luôn đầu tiên
+            // Entity: Core properties
             {
               groupName: 'id-property',
               selector: 'property',
               elementNamePattern: '^id$',
             },
-            // Entity: Timestamp properties cuối cùng
+            {
+              groupName: 'name-property',
+              selector: 'property',
+              elementNamePattern: '^(name|title)$',
+            },
+            {
+              groupName: 'identifier-property',
+              selector: 'property',
+              elementNamePattern: '^(uuid|code|slug|email|username|phone|sku)$',
+            },
+            {
+              groupName: 'status-property',
+              selector: 'property',
+              elementNamePattern: '^(status|state|type|isActive|isEnabled|isDeleted|isPublished|isVisible)$',
+            },
+            
+            // Entity: References
+            {
+              groupName: 'foreign-key-property',
+              selector: 'property',
+              elementNamePattern: '.*Id$',
+            },
+            {
+              groupName: 'relation-property',
+              selector: 'property',
+              decoratorNamePattern: '^(OneToOne|OneToMany|ManyToOne|ManyToMany|JoinColumn|JoinTable)$',
+            },
+            
+            // Entity: Tracking
+            {
+              groupName: 'user-tracking-property',
+              selector: 'property',
+              elementNamePattern: '^(createdBy|updatedBy|deletedBy)$',
+            },
             {
               groupName: 'timestamp-property',
               selector: 'property',
               elementNamePattern: '^(createdAt|updatedAt|deletedAt)$',
             },
-            // Service: CRUD methods ưu tiên theo thứ tự logic
+            
+            // Lifecycle hooks
+            {
+              groupName: 'lifecycle-hook',
+              selector: 'method',
+              elementNamePattern: '^(onModuleInit|onModuleDestroy|onApplicationBootstrap|onApplicationShutdown|beforeInsert|beforeUpdate|beforeRemove|afterInsert|afterUpdate|afterRemove|afterLoad)$',
+            },
+            
+            // Service: CRUD methods
             {
               groupName: 'create-method',
               selector: 'method',
-              elementNamePattern: '^(create|save|bulkCreate)',
+              elementNamePattern: '^(create|save|insert|add|build|bulkCreate|bulkInsert)',
             },
             {
               groupName: 'read-method',
               selector: 'method',
-              elementNamePattern: '^(find|get|read|list|count|exists)',
+              elementNamePattern: '^(find|get|read|list|search|query|count|exists|check|load)',
             },
             {
               groupName: 'update-method',
               selector: 'method',
-              elementNamePattern: '^(update|patch|upsert|bulkUpdate)',
+              elementNamePattern: '^(update|patch|edit|modify|set|upsert|bulkUpdate)',
             },
             {
               groupName: 'delete-method',
               selector: 'method',
-              elementNamePattern: '^(delete|remove|destroy|softDelete|restore|bulkDelete|bulkRemove)',
+              elementNamePattern: '^(delete|remove|destroy|clear|softDelete|hardDelete|restore|bulkDelete|bulkRemove)',
+            },
+            
+            // Business logic
+            {
+              groupName: 'business-method',
+              selector: 'method',
+              elementNamePattern: '^(calculate|compute|process|validate|verify|approve|reject|activate|deactivate|enable|disable|publish|unpublish|confirm|cancel)',
+            },
+            {
+              groupName: 'utility-method',
+              selector: 'method',
+              elementNamePattern: '^(format|transform|convert|parse|serialize|deserialize|sanitize|normalize|map|filter|sort)',
             },
           ],
         },
@@ -182,7 +261,6 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
     },
   });
 };
-
 /** Perfectionist - enable broad sorting rules */
 export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLintConfigArray => {
   if (!options.perfectionist?.enabled) return [];
