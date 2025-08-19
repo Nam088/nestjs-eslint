@@ -99,7 +99,6 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
     rules: {
       'perfectionist/sort-classes': [
         'error',
-        // Config cho Service classes (CRUD methods ưu tiên)
         {
           type: 'alphabetical',
           order: 'asc',
@@ -119,70 +118,47 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
             ['private-static-property', 'private-static-accessor-property'],
             ['private-static-get-method', 'private-static-set-method'],
             'static-block',
+            // Entity: ID properties first
+            'id-property',
             ['property', 'accessor-property'],
             ['get-method', 'set-method'],
             ['protected-property', 'protected-accessor-property'],
             ['protected-get-method', 'protected-set-method'],
             ['private-property', 'private-accessor-property'],
             ['private-get-method', 'private-set-method'],
+            // Entity: Timestamps last
+            'timestamp-property',
             'constructor',
             ['static-method', 'static-function-property'],
             ['protected-static-method', 'protected-static-function-property'],
             ['private-static-method', 'private-static-function-property'],
+            // Service: CRUD methods first
+            'crud-method',
             ['method', 'function-property'],
             ['protected-method', 'protected-function-property'],
             ['private-method', 'private-function-property'],
             'unknown',
           ],
-          customGroups: {
-            // CRUD methods ưu tiên
-            crud: '^(create|find|update|delete)',
-            // Các methods khác
-            other: '.*',
-          },
-        },
-        // Config cho Entity classes (id ưu tiên, timestamps cuối)
-        {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          partitionByComment: true,
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
-          groups: [
-            'index-signature',
-            ['static-property', 'static-accessor-property'],
-            ['static-get-method', 'static-set-method'],
-            ['protected-static-property', 'protected-static-accessor-property'],
-            ['protected-static-get-method', 'protected-static-set-method'],
-            ['private-static-property', 'private-static-accessor-property'],
-            ['private-static-get-method', 'private-static-set-method'],
-            'static-block',
-            ['property', 'accessor-property'],
-            ['get-method', 'set-method'],
-            ['protected-property', 'protected-accessor-property'],
-            ['protected-get-method', 'protected-set-method'],
-            ['private-property', 'private-accessor-property'],
-            ['private-get-method', 'private-set-method'],
-            'constructor',
-            ['static-method', 'static-function-property'],
-            ['protected-static-method', 'protected-static-function-property'],
-            ['private-static-method', 'private-static-function-property'],
-            ['method', 'function-property'],
-            ['protected-method', 'protected-function-property'],
-            ['private-method', 'private-function-property'],
-            'unknown',
+          customGroups: [
+            // Entity: ID property luôn đầu tiên
+            {
+              groupName: 'id-property',
+              selector: 'property',
+              elementNamePattern: '^id$',
+            },
+            // Entity: Timestamp properties cuối cùng
+            {
+              groupName: 'timestamp-property',
+              selector: 'property',
+              elementNamePattern: '^(createdAt|updatedAt|deletedAt)$',
+            },
+            // Service: CRUD methods ưu tiên
+            {
+              groupName: 'crud-method',
+              selector: 'method',
+              elementNamePattern: '^(create|find|update|delete)',
+            },
           ],
-          customGroups: {
-            // ID luôn đầu tiên
-            id: '^id$',
-            // Timestamps cuối cùng
-            timestamps: '^(createdAt|updatedAt|deletedAt)',
-            // Các properties khác
-            other: '.*',
-          },
         },
       ],
     },
