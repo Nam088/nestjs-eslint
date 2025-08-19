@@ -5,8 +5,6 @@ import { importX } from 'eslint-plugin-import-x';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 import perfectionistPlugin from 'eslint-plugin-perfectionist';
-import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
-
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -83,21 +81,6 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
     importX.flatConfigs.recommended,
     importX.flatConfigs.typescript,
     
-
-    
-    // Import resolver settings
-    {
-      settings: {
-        'import-x/resolver': [
-          createTypeScriptImportResolver({
-            alwaysTryTypes: true,
-            project,
-            extensions: ['.ts', '.tsx', '.d.ts', '.js', '.jsx', '.json', '.node'],
-          }),
-        ],
-      },
-    },
-    
     // Custom import sorting & Unused Imports
     {
       plugins: {
@@ -120,7 +103,6 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
         'import-x/namespace': 'off', // Disable namespace rule to avoid bodyParser issues
         // Disable perfectionist sort-imports in favor of import-x
         'perfectionist/sort-imports': 'off',
-
         'unused-imports/no-unused-imports': 'error',
         'unused-imports/no-unused-vars': [
           'warn',
