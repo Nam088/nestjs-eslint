@@ -514,6 +514,12 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
             'name-property', 
             'identifier-property',
             'status-property',
+
+           
+            'imports',
+            'controllers', 
+            'providers',
+            'exports',
             
             // Regular properties
             'regular-property',
@@ -527,10 +533,6 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
             'timestamp-property',
             
             // NestJS Module specific
-            'imports',
-            'controllers', 
-            'providers',
-            'exports',
             
             // Unknown properties
             'unknown',
