@@ -1,5 +1,6 @@
 // @ts-check
 import eslint from '@eslint/js';
+import stylistic from '@stylistic/eslint-plugin';
 
 import { importX } from 'eslint-plugin-import-x';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
@@ -86,6 +87,7 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
       plugins: {
         'unused-imports': unusedImportsPlugin as any,
         perfectionist: perfectionistPlugin as any,
+        '@stylistic': stylistic as any,
       },
       rules: {
         'import-x/order': [
