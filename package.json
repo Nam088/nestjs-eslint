@@ -52,6 +52,7 @@
     "eslint-plugin-jest": "^28.11.0",
     "eslint-plugin-jsdoc": "^50.6.11",
     "eslint-plugin-lodash": "^8.0.0",
+    "eslint-plugin-paths": "^1.1.0",
     "eslint-plugin-perfectionist": "^4.15.0",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-security": "^3.0.1",
