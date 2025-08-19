@@ -132,8 +132,11 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
             ['static-method', 'static-function-property'],
             ['protected-static-method', 'protected-static-function-property'],
             ['private-static-method', 'private-static-function-property'],
-            // Service: CRUD methods first
-            'crud-method',
+            // Service: CRUD methods first theo thứ tự logic
+            'create-method',
+            'read-method', 
+            'update-method',
+            'delete-method',
             ['method', 'function-property'],
             ['protected-method', 'protected-function-property'],
             ['private-method', 'private-function-property'],
@@ -152,11 +155,26 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
               selector: 'property',
               elementNamePattern: '^(createdAt|updatedAt|deletedAt)$',
             },
-            // Service: CRUD methods ưu tiên
+            // Service: CRUD methods ưu tiên theo thứ tự logic
             {
-              groupName: 'crud-method',
+              groupName: 'create-method',
               selector: 'method',
-              elementNamePattern: '^(create|save|find|get|read|list|count|exists|update|patch|upsert|delete|remove|destroy|softDelete|restore|bulkCreate|bulkUpdate|bulkDelete|bulkRemove)',
+              elementNamePattern: '^(create|save|bulkCreate)',
+            },
+            {
+              groupName: 'read-method',
+              selector: 'method',
+              elementNamePattern: '^(find|get|read|list|count|exists)',
+            },
+            {
+              groupName: 'update-method',
+              selector: 'method',
+              elementNamePattern: '^(update|patch|upsert|bulkUpdate)',
+            },
+            {
+              groupName: 'delete-method',
+              selector: 'method',
+              elementNamePattern: '^(delete|remove|destroy|softDelete|restore|bulkDelete|bulkRemove)',
             },
           ],
         },
