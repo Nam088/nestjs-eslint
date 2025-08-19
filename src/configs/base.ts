@@ -85,7 +85,7 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
     importX.flatConfigs.typescript,
     
     // Import alias plugin - auto-fix imports to use aliases
-    ...importAlias.configs.recommended,
+    importAlias.configs.recommended,
     
     // Import resolver settings
     {
