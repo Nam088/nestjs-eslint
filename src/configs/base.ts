@@ -6,7 +6,6 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 import perfectionistPlugin from 'eslint-plugin-perfectionist';
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
-import noRelativeImportPathsPlugin from 'eslint-plugin-no-relative-import-paths';
 
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -104,7 +103,6 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
       plugins: {
         'unused-imports': unusedImportsPlugin as any,
         perfectionist: perfectionistPlugin as any,
-        'no-relative-import-paths': noRelativeImportPathsPlugin as any,
       },
       rules: {
         'import-x/order': [
@@ -122,8 +120,7 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
         'import-x/namespace': 'off', // Disable namespace rule to avoid bodyParser issues
         // Disable perfectionist sort-imports in favor of import-x
         'perfectionist/sort-imports': 'off',
-        // Enforce using aliases instead of relative imports (zero-config)
-        'no-relative-import-paths/no-relative-import-paths': 'warn',
+
         'unused-imports/no-unused-imports': 'error',
         'unused-imports/no-unused-vars': [
           'warn',
