@@ -137,9 +137,19 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
             'foreign-key-property',
             'relation-property',
             
-            // Entity: Tracking properties
-            'user-tracking-property',
-            'timestamp-property',
+            // Entity: CRUD timestamps (Create → Update → Delete)
+            'create-timestamp-property',
+            'update-timestamp-property',
+            'delete-timestamp-property',
+            
+            // Entity: User tracking properties (Create → Upload → Update → Delete)
+            'create-user-tracking-property',
+            'upload-user-tracking-property',
+            'update-user-tracking-property',
+            'delete-user-tracking-property',
+            
+            // Entity: Other timestamps
+            'other-timestamp-property',
             
             'constructor',
             
@@ -203,16 +213,50 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
               decoratorNamePattern: '^(OneToOne|OneToMany|ManyToOne|ManyToMany|JoinColumn|JoinTable)$',
             },
             
-            // Entity: Tracking
+            // Entity: CRUD timestamps (Create → Update → Delete)
             {
-              groupName: 'user-tracking-property',
+              groupName: 'create-timestamp-property',
               selector: 'property',
-              elementNamePattern: '^(createdBy|updatedBy|deletedBy)$',
+              elementNamePattern: '^createdAt$',
             },
             {
-              groupName: 'timestamp-property',
+              groupName: 'update-timestamp-property',
               selector: 'property',
-              elementNamePattern: '^(createdAt|updatedAt|deletedAt)$',
+              elementNamePattern: '^updatedAt$',
+            },
+            {
+              groupName: 'delete-timestamp-property',
+              selector: 'property',
+              elementNamePattern: '^deletedAt$',
+            },
+            
+            // Entity: User tracking (Create → Upload → Update → Delete)
+            {
+              groupName: 'create-user-tracking-property',
+              selector: 'property',
+              elementNamePattern: '^createdBy$',
+            },
+            {
+              groupName: 'upload-user-tracking-property',
+              selector: 'property',
+              elementNamePattern: '^uploadBy$',
+            },
+            {
+              groupName: 'update-user-tracking-property',
+              selector: 'property',
+              elementNamePattern: '^updatedBy$',
+            },
+            {
+              groupName: 'delete-user-tracking-property',
+              selector: 'property',
+              elementNamePattern: '^deletedBy$',
+            },
+            
+            // Entity: Other timestamps
+            {
+              groupName: 'other-timestamp-property',
+              selector: 'property',
+              elementNamePattern: '^(?!createdAt$|updatedAt$|deletedAt$).*At$',
             },
             
             // Lifecycle hooks
@@ -508,13 +552,18 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
           styledComponents: true,
           ignorePattern: [],
           // Core properties first, then regular properties, then references, then tracking
-          groups: [
+                    groups: [
             // Core properties
             'id-property',
             'name-property', 
             'identifier-property',
             'status-property',
-           
+            
+            // CRUD timestamps (Create → Read → Update → Delete)
+            'create-timestamp-property',
+            'update-timestamp-property',
+            'delete-timestamp-property',
+            
             'imports',
             'controllers', 
             'providers',
@@ -527,11 +576,14 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
             'foreign-key-property',
             'relation-property',
             
-            // Tracking properties
-            'user-tracking-property',
-            'timestamp-property',
+            // User tracking properties (Create → Upload → Update → Delete)
+            'create-user-tracking-property',
+            'upload-user-tracking-property',
+            'update-user-tracking-property',
+            'delete-user-tracking-property',
             
-            // NestJS Module specific
+            // Other timestamps
+            'other-timestamp-property',
             
             // Unknown properties
             'unknown',
@@ -543,16 +595,26 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
             'identifier-property': '^(uuid|code|slug|email|username|phone|sku)$',
             'status-property': '^(status|state|type|isActive|isEnabled|isDeleted|isPublished|isVisible)$',
             
+            // CRUD timestamps (Create → Update → Delete)
+            'create-timestamp-property': '^createdAt$',
+            'update-timestamp-property': '^updatedAt$',
+            'delete-timestamp-property': '^deletedAt$',
+            
             // Regular properties (alphabetical)
-            'regular-property': '^(?!id$|name$|title$|uuid$|code$|slug$|email$|username$|phone$|sku$|status$|state$|type$|isActive$|isEnabled$|isDeleted$|isPublished$|isVisible$|.*Id$|createdBy$|updatedBy$|deletedBy$|createdAt$|updatedAt$|deletedAt$|imports$|controllers$|providers$|exports$).*$',
+            'regular-property': '^(?!id$|name$|title$|uuid$|code$|slug$|email$|username$|phone$|sku$|status$|state$|type$|isActive$|isEnabled$|isDeleted$|isPublished$|isVisible$|createdAt$|updatedAt$|deletedAt$|createdBy$|uploadBy$|updatedBy$|deletedBy$|.*Id$|imports$|controllers$|providers$|exports$).*$',
             
             // Foreign keys & relations
             'foreign-key-property': '.*Id$',
             'relation-property': '^(relation|relationship|ref|reference)$',
             
-            // User tracking
-            'user-tracking-property': '^(createdBy|updatedBy|deletedBy)$',
-            'timestamp-property': '^(createdAt|updatedAt|deletedAt)$',
+            // User tracking (Create → Upload → Update → Delete)
+            'create-user-tracking-property': '^createdBy$',
+            'upload-user-tracking-property': '^uploadBy$',
+            'update-user-tracking-property': '^updatedBy$',
+            'delete-user-tracking-property': '^deletedBy$',
+            
+            // Other timestamps (not CRUD)
+            'other-timestamp-property': '^(?!createdAt$|updatedAt$|deletedAt$).*At$',
             
             // NestJS Module
             'imports': '^imports$',
