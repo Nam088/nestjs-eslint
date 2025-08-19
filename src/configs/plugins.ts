@@ -249,7 +249,12 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-decorators': [
         'error',
         {
-          ...baseOptions,
+          type: baseOptions.type,
+          order: baseOptions.order,
+          fallbackSort: baseOptions.fallbackSort,
+          ignoreCase: baseOptions.ignoreCase,
+          specialCharacters: baseOptions.specialCharacters,
+          partitionByComment: baseOptions.partitionByComment,
           groups: [],
           customGroups: {},
           sortOnClasses: true,
@@ -284,7 +289,11 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-heritage-clauses': [
         'error',
         {
-          ...baseOptions,
+          type: baseOptions.type,
+          order: baseOptions.order,
+          fallbackSort: baseOptions.fallbackSort,
+          ignoreCase: baseOptions.ignoreCase,
+          specialCharacters: baseOptions.specialCharacters,
           groups: [],
           customGroups: {},
         },
@@ -395,7 +404,11 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-switch-case': [
         'error',
         {
-          ...baseOptions,
+          type: baseOptions.type,
+          order: baseOptions.order,
+          fallbackSort: baseOptions.fallbackSort,
+          ignoreCase: baseOptions.ignoreCase,
+          specialCharacters: baseOptions.specialCharacters,
         },
       ],
 
