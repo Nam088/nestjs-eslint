@@ -139,6 +139,49 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
             fixMixedExportsWithInlineTypeSpecifier: true,
           },
         ],
+        '@typescript-eslint/lines-between-class-members': [
+          'error',
+          'always',
+          {
+            exceptAfterSingleLine: true,
+          },
+        ],
+        'padding-line-between-statements': [
+          'error',
+          { blankLine: 'always', prev: 'if', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'if' },
+
+          { blankLine: 'always', prev: 'for', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'for' },
+
+          { blankLine: 'always', prev: 'while', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'while' },
+
+          { blankLine: 'always', prev: 'switch', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'switch' },
+
+          { blankLine: 'always', prev: 'try', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'try' },
+
+          { blankLine: 'always', prev: 'catch', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'catch' },
+
+          { blankLine: 'always', prev: 'finally', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'finally' },
+
+          { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
+          { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] }, // cho phép nhiều biến liên tục
+
+          { blankLine: 'always', prev: '*', next: 'return' },
+
+          { blankLine: 'always', prev: '*', next: 'export' },
+
+          { blankLine: 'always', prev: '*', next: ['function', 'class'] },
+          { blankLine: 'always', prev: ['function', 'class'], next: '*' },
+
+          { blankLine: 'always', prev: 'case', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'case' },
+        ],
       },
     },
 
