@@ -100,6 +100,7 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
         ],
         'import-x/no-duplicates': 'error',
         'import-x/newline-after-import': 'error',
+        'import-x/namespace': 'off', // Disable namespace rule to avoid bodyParser issues
         // Disable perfectionist sort-imports in favor of import-x
         'perfectionist/sort-imports': 'off',
         'unused-imports/no-unused-imports': 'error',
@@ -124,6 +125,20 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
         '@typescript-eslint/no-unsafe-argument': 'warn',
         '@typescript-eslint/method-signature-style': ['error', 'property'],
         '@typescript-eslint/no-unnecessary-condition': 'off',
+        '@typescript-eslint/consistent-type-imports': [
+          'error',
+          {
+            prefer: 'type-imports',
+            disallowTypeAnnotations: false,
+            fixStyle: 'separate-type-imports',
+          },
+        ],
+        '@typescript-eslint/consistent-type-exports': [
+          'error',
+          {
+            fixMixedExportsWithInlineTypeSpecifier: true,
+          },
+        ],
       },
     },
 

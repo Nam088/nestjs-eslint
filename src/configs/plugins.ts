@@ -387,7 +387,30 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
           styledComponents: true,
           ignorePattern: [],
           groups: [],
-          customGroups: [],
+          customGroups: {},
+        },
+        // Custom config chỉ cho @Module decorator
+        {
+          type: 'alphabetical',
+          order: 'asc',
+          fallbackSort: { type: 'unsorted' },
+          ignoreCase: true,
+          specialCharacters: 'keep',
+          partitionByComment: baseOptions.partitionByComment,
+          partitionByNewLine: false,
+          newlinesBetween: 'ignore',
+          objectDeclarations: true,
+          destructuredObjects: true,
+          styledComponents: true,
+          ignorePattern: [],
+          groups: [
+            ['imports', 'controllers', 'providers', 'exports'], // NestJS Module order
+            'unknown',
+          ],
+          customGroups: {},
+          useConfigurationIf: {
+            decoratorName: 'Module', // Chỉ áp dụng cho @Module decorator
+          },
         },
       ],
 
