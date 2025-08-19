@@ -386,30 +386,13 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
           destructuredObjects: true,
           styledComponents: true,
           ignorePattern: [],
-          groups: [],
-          customGroups: {},
-        },
-        // Custom config chỉ cho @Module decorator
-        {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          partitionByComment: baseOptions.partitionByComment,
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
-          objectDeclarations: true,
-          destructuredObjects: true,
-          styledComponents: true,
-          ignorePattern: [],
-          groups: [
-            ['imports', 'controllers', 'providers', 'exports'], // NestJS Module order
-            'unknown',
-          ],
-          customGroups: {},
-          useConfigurationIf: {
-            decoratorName: 'Module', // Chỉ áp dụng cho @Module decorator
+          // Định nghĩa groups cho NestJS Module, nếu object có các properties này sẽ sort theo thứ tự
+          groups: ['imports', 'controllers', 'providers', 'exports', 'unknown'],
+          customGroups: {
+            imports: '^imports$',
+            controllers: '^controllers$', 
+            providers: '^providers$',
+            exports: '^exports$',
           },
         },
       ],
