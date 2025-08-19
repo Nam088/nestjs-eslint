@@ -158,6 +158,34 @@ const jestConfig = createJestConfig({
 export default mergeConfigs(baseConfig, jestConfig);
 ```
 
+### Example: Max Mode (use all configs)
+
+```javascript
+import {
+  createBaseConfig,
+  createNestJSConfig,
+  createStrictConfig,
+  createPerfectionistConfig,
+  mergeConfigs,
+} from '@ecom-co/eslint';
+
+export default mergeConfigs(
+  createBaseConfig({
+    perfectionist: true,
+  }),
+  createPerfectionistConfig({ perfectionist: true }),
+  createNestJSConfig({
+    jest: true,
+    security: true,
+    sonarjs: true,
+    lodash: true,
+    nestjs: true,
+    perfectionist: true,
+  }),
+  createStrictConfig({ jsdoc: true }),
+);
+```
+
 ### Project-Specific Overrides
 
 ```javascript

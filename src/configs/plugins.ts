@@ -331,7 +331,7 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
           specialCharacters: 'keep',
           partitionByNewLine: false,
           partitionByComment: false,
-          newlinesBetween: false,
+          newlinesBetween: 'ignore',
           useConfigurationIf: {},
           groups: [],
           customGroups: [],
