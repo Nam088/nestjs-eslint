@@ -1,5 +1,7 @@
 // @ts-check
 import eslint from '@eslint/js';
+
+import { importX } from 'eslint-plugin-import-x';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 import perfectionistPlugin from 'eslint-plugin-perfectionist';
@@ -34,10 +36,20 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
   ];
 
   const defaultImportGroups = {
-    groups: [["builtin", "external"], "internal", ["parent", "sibling", "index"]],
+    groups: [
+      'builtin',
+      'external',
+      'internal',
+      'parent',
+      'sibling',
+      'index',
+    ],
     pathGroups: [
+      // NestJS core modules
       { pattern: '@nestjs/**', group: 'external', position: 'before' },
-      { pattern: '@*/**', group: 'internal', position: 'after' },
+      // Project internal modules (common patterns)
+      { pattern: '@/*', group: 'internal', position: 'after' },
+      { pattern: '~/', group: 'internal', position: 'after' },
     ],
     ...(importGroups || {}),
   } as NonNullable<EcomESLintOptions['importGroups']>;
@@ -65,43 +77,31 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
       },
     },
 
-    // Import sorting (Perfectionist) & Unused Imports
+    // Import-x flat configs
+    importX.flatConfigs.recommended,
+    importX.flatConfigs.typescript,
+    
+    // Custom import sorting & Unused Imports
     {
       plugins: {
         'unused-imports': unusedImportsPlugin as any,
         perfectionist: perfectionistPlugin as any,
       },
-      settings: {},
       rules: {
-        // Import-x disabled in favor of perfectionist
-        'perfectionist/sort-imports': [
+        'import-x/order': [
           'error',
           {
-            type: 'alphabetical',
-            order: 'asc',
-            fallbackSort: { type: 'unsorted' },
-            ignoreCase: true,
-            specialCharacters: 'keep',
-            internalPattern: ['^~/.+', '^@/.+'],
-            partitionByComment: false,
-            partitionByNewLine: false,
-            newlinesBetween: 1,
-            maxLineLength: undefined,
-            groups: [
-              'type-import',
-              ['value-builtin', 'value-external'],
-              'type-internal',
-              'value-internal',
-              ['type-parent', 'type-sibling', 'type-index'],
-              ['value-parent', 'value-sibling', 'value-index'],
-              'ts-equals-import',
-              'unknown',
-            ],
-            customGroups: [],
-            environment: 'node',
+            'newlines-between': 'always',
+            alphabetize: { order: 'asc', caseInsensitive: true },
+            groups: defaultImportGroups.groups,
+            pathGroups: defaultImportGroups.pathGroups,
+            pathGroupsExcludedImportTypes: ['builtin'],
           },
         ],
-        // Keep import hygiene via perfectionist/newlinesBetween and unused-imports
+        'import-x/no-duplicates': 'error',
+        'import-x/newline-after-import': 'error',
+        // Disable perfectionist sort-imports in favor of import-x
+        'perfectionist/sort-imports': 'off',
         'unused-imports/no-unused-imports': 'error',
         'unused-imports/no-unused-vars': [
           'warn',

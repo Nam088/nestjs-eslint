@@ -102,23 +102,38 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
         {
           type: 'alphabetical',
           order: 'asc',
-          groups: [
-            'index-signature',
-            'static-property',
-            'static-block',
-            ['property', 'accessor-property'],
-            ['protected-property', 'protected-accessor-property'],
-            ['private-property', 'private-accessor-property'],
-            'constructor',
-            'static-method',
-            'method',
-            'protected-method',
-            'private-method',
-            ['get-method', 'set-method'],
-            'unknown',
-          ],
+          fallbackSort: { type: 'unsorted' },
+          ignoreCase: true,
+          specialCharacters: 'keep',
+          partitionByComment: true,
           partitionByNewLine: false,
           newlinesBetween: 'ignore',
+          ignoreCallbackDependenciesPatterns: [],
+          groups: [
+            'index-signature',
+            ['static-property', 'static-accessor-property'],
+            ['static-get-method', 'static-set-method'],
+            ['protected-static-property', 'protected-static-accessor-property'],
+            ['protected-static-get-method', 'protected-static-set-method'],
+            ['private-static-property', 'private-static-accessor-property'],
+            ['private-static-get-method', 'private-static-set-method'],
+            'static-block',
+            ['property', 'accessor-property'],
+            ['get-method', 'set-method'],
+            ['protected-property', 'protected-accessor-property'],
+            ['protected-get-method', 'protected-set-method'],
+            ['private-property', 'private-accessor-property'],
+            ['private-get-method', 'private-set-method'],
+            'constructor',
+            ['static-method', 'static-function-property'],
+            ['protected-static-method', 'protected-static-function-property'],
+            ['private-static-method', 'private-static-function-property'],
+            ['method', 'function-property'],
+            ['protected-method', 'protected-function-property'],
+            ['private-method', 'private-function-property'],
+            'unknown',
+          ],
+          customGroups: [],
         },
       ],
     },
@@ -127,21 +142,71 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
 
 /** Perfectionist - enable broad sorting rules */
 export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLintConfigArray => {
-  if (!options.perfectionist) return [];
+  if (!options.perfectionist?.enabled) return [];
+  
+  const type = options.perfectionist.type || 'recommended-alphabetical';
+  const partitionByComment = options.perfectionist.partitionByComment ?? true; // Default to true
+  
+  // Base options based on type
+  const getBaseOptions = () => {
+    switch (type) {
+      case 'recommended-natural':
+        return {
+          type: 'natural' as const,
+          order: 'asc' as const,
+          fallbackSort: { type: 'unsorted' as const },
+          ignoreCase: true,
+          specialCharacters: 'keep' as const,
+          partitionByComment,
+          partitionByNewLine: false,
+          newlinesBetween: 'ignore' as const,
+        };
+      case 'recommended-line-length':
+        return {
+          type: 'line-length' as const,
+          order: 'asc' as const,
+          fallbackSort: { type: 'unsorted' as const },
+          ignoreCase: true,
+          specialCharacters: 'keep' as const,
+          partitionByComment,
+          partitionByNewLine: false,
+          newlinesBetween: 'ignore' as const,
+        };
+      case 'recommended-custom':
+        return {
+          type: 'alphabetical' as const,
+          order: 'asc' as const,
+          fallbackSort: { type: 'unsorted' as const },
+          ignoreCase: true,
+          specialCharacters: 'keep' as const,
+          partitionByComment,
+          partitionByNewLine: false,
+          newlinesBetween: 'ignore' as const,
+        };
+      default: // recommended-alphabetical
+        return {
+          type: 'alphabetical' as const,
+          order: 'asc' as const,
+          fallbackSort: { type: 'unsorted' as const },
+          ignoreCase: true,
+          specialCharacters: 'keep' as const,
+          partitionByComment,
+          partitionByNewLine: false,
+          newlinesBetween: 'ignore' as const,
+        };
+    }
+  };
+  
+  const baseOptions = getBaseOptions();
+  
   return tseslint.config({
     plugins: { perfectionist: perfectionistPlugin as any },
     rules: {
       'perfectionist/sort-array-includes': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
+          ...baseOptions,
           groupKind: 'literals-first',
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
           useConfigurationIf: {},
           groups: [],
           customGroups: [],
@@ -151,14 +216,7 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-classes': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          partitionByComment: false,
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
+          ...baseOptions,
           ignoreCallbackDependenciesPatterns: [],
           groups: [
             'index-signature',
@@ -191,11 +249,7 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-decorators': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
+          ...baseOptions,
           groups: [],
           customGroups: {},
           sortOnClasses: true,
@@ -209,14 +263,7 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-enums': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          partitionByComment: false,
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
+          ...baseOptions,
           sortByValue: false,
           forceNumericSort: false,
           groups: [],
@@ -227,14 +274,7 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-exports': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          partitionByComment: false,
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
+          ...baseOptions,
           groupKind: 'mixed',
           groups: [],
           customGroups: [],
@@ -244,58 +284,18 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-heritage-clauses': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
+          ...baseOptions,
           groups: [],
           customGroups: {},
-        },
-      ],
-
-      'perfectionist/sort-imports': [
-        'error',
-        {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          internalPattern: ['^~/.+', '^@/.+'],
-          partitionByComment: false,
-          partitionByNewLine: false,
-          newlinesBetween: 1,
-          maxLineLength: undefined,
-          groups: [
-            'type-import',
-            ['value-builtin', 'value-external'],
-            'type-internal',
-            'value-internal',
-            ['type-parent', 'type-sibling', 'type-index'],
-            ['value-parent', 'value-sibling', 'value-index'],
-            'ts-equals-import',
-            'unknown',
-          ],
-          customGroups: [],
-          environment: 'node',
         },
       ],
 
       'perfectionist/sort-interfaces': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
+          ...baseOptions,
           sortBy: 'name',
           ignorePattern: [],
-          partitionByComment: false,
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
-          useConfigurationIf: {},
           groupKind: 'mixed',
           groups: [],
           customGroups: [],
@@ -305,33 +305,18 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-intersection-types': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          partitionByComment: false,
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
+          ...baseOptions,
           groups: [],
           customGroups: [],
         },
       ],
 
-      // Not provided with explicit options in the docs snippet; enable with defaults
       'perfectionist/sort-jsx-props': 'error',
 
       'perfectionist/sort-maps': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          partitionByNewLine: false,
-          partitionByComment: false,
-          newlinesBetween: 'ignore',
+          ...baseOptions,
           useConfigurationIf: {},
           groups: [],
           customGroups: [],
@@ -341,14 +326,7 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-modules': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          partitionByComment: false,
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
+          ...baseOptions,
           groups: [
             'declare-enum',
             'export-enum',
@@ -370,38 +348,22 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-named-exports': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
+          ...baseOptions,
           ignoreAlias: false,
-          ignoreCase: true,
-          specialCharacters: 'keep',
           groupKind: 'mixed',
-          partitionByNewLine: false,
-          partitionByComment: false,
-          newlinesBetween: 'ignore',
           groups: [],
           customGroups: [],
         },
       ],
 
-      // Not provided with explicit options in the docs snippet; enable with defaults
       'perfectionist/sort-named-imports': 'error',
 
       'perfectionist/sort-object-types': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
+          ...baseOptions,
           sortBy: 'name',
           ignorePattern: [],
-          partitionByComment: false,
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
-          useConfigurationIf: {},
           groups: [],
           customGroups: [],
         },
@@ -410,19 +372,11 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-objects': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          partitionByComment: false,
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
+          ...baseOptions,
           objectDeclarations: true,
           destructuredObjects: true,
           styledComponents: true,
           ignorePattern: [],
-          useConfigurationIf: {},
           groups: [],
           customGroups: [],
         },
@@ -431,15 +385,8 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-sets': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
+          ...baseOptions,
           groupKind: 'literals-first',
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
-          useConfigurationIf: {},
           groups: [],
           customGroups: [],
         },
@@ -448,25 +395,14 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-switch-case': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
+          ...baseOptions,
         },
       ],
 
       'perfectionist/sort-union-types': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          partitionByComment: false,
-          partitionByNewLine: false,
-          newlinesBetween: 'ignore',
+          ...baseOptions,
           groups: [],
           customGroups: [],
         },
@@ -475,25 +411,19 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
       'perfectionist/sort-variable-declarations': [
         'error',
         {
-          type: 'alphabetical',
-          order: 'asc',
-          fallbackSort: { type: 'unsorted' },
-          ignoreCase: true,
-          specialCharacters: 'keep',
-          partitionByNewLine: false,
-          partitionByComment: false,
-          newlinesBetween: 'ignore',
+          ...baseOptions,
           groups: [],
           customGroups: [],
         },
       ],
 
-      // Disable potentially conflicting rules in favor of perfectionist
+      // Disable potentially conflicting rules
       'sort-imports': 'off',
       'react/jsx-sort-props': 'off',
       'sort-keys': 'off',
       '@typescript-eslint/adjacent-overload-signatures': 'off',
       '@typescript-eslint/sort-type-constituents': 'off',
+      'perfectionist/sort-imports': 'off', // Prefer import-x/order
     },
   });
 };

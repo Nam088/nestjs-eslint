@@ -22,7 +22,10 @@ export const createNestJSConfig = (options: EcomESLintOptions = {}): ESLintConfi
     security: true,
     sonarjs: true,
     lodash: true,
-    perfectionist: true,
+    perfectionist: options.perfectionist || {
+      enabled: true,
+      type: 'recommended-alphabetical',
+    },
     jsdoc: false,
     ...options,
   };

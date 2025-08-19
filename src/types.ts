@@ -29,7 +29,11 @@ export interface EcomESLintOptions {
   lodash?: boolean;
 
   /** Enable Perfectionist sorting rules */
-  perfectionist?: boolean;
+  perfectionist?: {
+    enabled: boolean;
+    type?: 'recommended-alphabetical' | 'recommended-natural' | 'recommended-line-length' | 'recommended-custom';
+    partitionByComment?: boolean;
+  };
 
   /** Additional ignore patterns */
   ignores?: string[];
