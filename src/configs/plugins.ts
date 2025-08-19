@@ -156,7 +156,7 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
             {
               groupName: 'crud-method',
               selector: 'method',
-              elementNamePattern: '^(create|save|find|get|read|count|exists|update|patch|upsert|delete|remove|destroy|softDelete|restore|bulkCreate|bulkUpdate|bulkDelete|bulkRemove)',
+              elementNamePattern: '^(create|save|find|get|read|list|count|exists|update|patch|upsert|delete|remove|destroy|softDelete|restore|bulkCreate|bulkUpdate|bulkDelete|bulkRemove)',
             },
           ],
         },
