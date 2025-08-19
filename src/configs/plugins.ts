@@ -507,13 +507,57 @@ export const createPerfectionistConfig = (options: EcomESLintOptions = {}): ESLi
           destructuredObjects: true,
           styledComponents: true,
           ignorePattern: [],
-          // Định nghĩa groups cho NestJS Module, nếu object có các properties này sẽ sort theo thứ tự
-          groups: ['imports', 'controllers', 'providers', 'exports', 'unknown'],
+          // Core properties first, then regular properties, then references, then tracking
+          groups: [
+            // Core properties
+            'id-property',
+            'name-property', 
+            'identifier-property',
+            'status-property',
+            
+            // Regular properties
+            'regular-property',
+            
+            // References & relationships
+            'foreign-key-property',
+            'relation-property',
+            
+            // Tracking properties
+            'user-tracking-property',
+            'timestamp-property',
+            
+            // NestJS Module specific
+            'imports',
+            'controllers', 
+            'providers',
+            'exports',
+            
+            // Unknown properties
+            'unknown',
+          ],
           customGroups: {
-            imports: '^imports$',
-            controllers: '^controllers$', 
-            providers: '^providers$',
-            exports: '^exports$',
+            // Core properties
+            'id-property': '^id$',
+            'name-property': '^(name|title)$',
+            'identifier-property': '^(uuid|code|slug|email|username|phone|sku)$',
+            'status-property': '^(status|state|type|isActive|isEnabled|isDeleted|isPublished|isVisible)$',
+            
+            // Regular properties (alphabetical)
+            'regular-property': '^(?!id$|name$|title$|uuid$|code$|slug$|email$|username$|phone$|sku$|status$|state$|type$|isActive$|isEnabled$|isDeleted$|isPublished$|isVisible$|.*Id$|createdBy$|updatedBy$|deletedBy$|createdAt$|updatedAt$|deletedAt$|imports$|controllers$|providers$|exports$).*$',
+            
+            // Foreign keys & relations
+            'foreign-key-property': '.*Id$',
+            'relation-property': '^(relation|relationship|ref|reference)$',
+            
+            // User tracking
+            'user-tracking-property': '^(createdBy|updatedBy|deletedBy)$',
+            'timestamp-property': '^(createdAt|updatedAt|deletedAt)$',
+            
+            // NestJS Module
+            'imports': '^imports$',
+            'controllers': '^controllers$', 
+            'providers': '^providers$',
+            'exports': '^exports$',
           },
         },
       ],
