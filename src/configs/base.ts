@@ -1,9 +1,8 @@
 // @ts-check
 import eslint from '@eslint/js';
-import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
-import * as importX from 'eslint-plugin-import-x';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
+import perfectionistPlugin from 'eslint-plugin-perfectionist';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -66,35 +65,43 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
       },
     },
 
-    // Import & Unused Imports
+    // Import sorting (Perfectionist) & Unused Imports
     {
       plugins: {
-        'import-x': importX as any,
         'unused-imports': unusedImportsPlugin as any,
+        perfectionist: perfectionistPlugin as any,
       },
-      settings: {
-        'import-x/resolver-next': [
-          createTypeScriptImportResolver({
-            alwaysTryTypes: true,
-            project,
-            extensions: ['.ts', '.tsx', '.d.ts', '.js', '.jsx', '.json', '.node'],
-          }),
-        ],
-      },
+      settings: {},
       rules: {
-        'import-x/no-unresolved': 'error',
-        'import-x/order': [
+        // Import-x disabled in favor of perfectionist
+        'perfectionist/sort-imports': [
           'error',
           {
-            'newlines-between': 'always',
-            alphabetize: { order: 'asc', caseInsensitive: true },
-            groups: defaultImportGroups.groups,
-            pathGroups: defaultImportGroups.pathGroups,
-            pathGroupsExcludedImportTypes: ['builtin'],
+            type: 'alphabetical',
+            order: 'asc',
+            fallbackSort: { type: 'unsorted' },
+            ignoreCase: true,
+            specialCharacters: 'keep',
+            internalPattern: ['^~/.+', '^@/.+'],
+            partitionByComment: false,
+            partitionByNewLine: false,
+            newlinesBetween: 1,
+            maxLineLength: undefined,
+            groups: [
+              'type-import',
+              ['value-builtin', 'value-external'],
+              'type-internal',
+              'value-internal',
+              ['type-parent', 'type-sibling', 'type-index'],
+              ['value-parent', 'value-sibling', 'value-index'],
+              'ts-equals-import',
+              'unknown',
+            ],
+            customGroups: [],
+            environment: 'node',
           },
         ],
-        'import-x/no-duplicates': 'error',
-        'import-x/newline-after-import': 'error',
+        // Keep import hygiene via perfectionist/newlinesBetween and unused-imports
         'unused-imports/no-unused-imports': 'error',
         'unused-imports/no-unused-vars': [
           'warn',

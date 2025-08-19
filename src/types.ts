@@ -28,6 +28,9 @@ export interface EcomESLintOptions {
   /** Enable Lodash optimization rules */
   lodash?: boolean;
 
+  /** Enable Perfectionist sorting rules */
+  perfectionist?: boolean;
+
   /** Additional ignore patterns */
   ignores?: string[];
 

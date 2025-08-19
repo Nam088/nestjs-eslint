@@ -4,6 +4,7 @@ import type { EcomESLintOptions, ESLintConfigArray } from '../types.js';
 import { createBaseConfig } from './base.js';
 import {
   createClassMemberConfig,
+  createPerfectionistConfig,
   createJSDocConfig,
   createJestConfig,
   createLodashConfig,
@@ -21,6 +22,7 @@ export const createNestJSConfig = (options: EcomESLintOptions = {}): ESLintConfi
     security: true,
     sonarjs: true,
     lodash: true,
+    perfectionist: true,
     jsdoc: false,
     ...options,
   };
@@ -32,11 +34,22 @@ export const createNestJSConfig = (options: EcomESLintOptions = {}): ESLintConfi
     ...createSecurityConfig(nestjsOptions),
     ...createSonarJSConfig(nestjsOptions),
     ...createLodashConfig(nestjsOptions),
+    ...createPerfectionistConfig(nestjsOptions),
+    // Keep class member sorting specific to Nest even with perfectionist
+    // but disable it below if perfectionist is enabled to avoid duplicate responsibilities
     ...createClassMemberConfig(nestjsOptions),
   ];
 
   const nestjsSpecificRules = tseslint.config({
     rules: {
+      // Disable conflicting ordering rules when perfectionist is enabled
+      ...(nestjsOptions.perfectionist
+        ? {
+            'sort-imports': 'off',
+            'react/jsx-sort-props': 'off',
+            'sort-keys': 'off',
+          }
+        : {}),
       // Allow decorators
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
@@ -51,6 +64,11 @@ export const createNestJSConfig = (options: EcomESLintOptions = {}): ESLintConfi
 
       // Custom decorators and metadata
       '@typescript-eslint/no-unsafe-return': 'warn',
+
+      // Prefer perfectionist over class member plugin
+      ...(nestjsOptions.perfectionist
+        ? { 'sort-class-members/sort-class-members': 'off' }
+        : {}),
 
       // Override any custom rules
       ...(nestjsOptions.rules || {}),

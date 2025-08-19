@@ -12,6 +12,7 @@ export {
   createSonarJSConfig,
   createLodashConfig,
   createClassMemberConfig,
+  createPerfectionistConfig,
 } from './configs/plugins.js';
 
 export { mergeConfigs, applyOverrides } from './utils/merge-configs.js';

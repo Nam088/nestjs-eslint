@@ -112,7 +112,8 @@ export default createBaseConfig({
   rules: {
     'no-console': 'off',
     '@typescript-eslint/no-explicit-any': 'error',
-    'import-x/order': 'off',
+    // Prefer perfectionist in this package
+    'perfectionist/sort-imports': 'error',
   },
 });
 ```
@@ -172,19 +173,7 @@ export default createNestJSConfig({
     // Disable specific rules for this project
     'sonarjs/cognitive-complexity': 'off',
     
-    // Project-specific import patterns
-    'import-x/no-restricted-paths': [
-      'error',
-      {
-        zones: [
-          {
-            target: './src/modules',
-            from: './src/core',
-            except: ['./src/core/types'],
-          },
-        ],
-      },
-    ],
+    // Project-specific import patterns – use perfectionist groups/customGroups instead
   },
 });
 ```
