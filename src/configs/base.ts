@@ -22,6 +22,7 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
     ignores = [],
     rules = {},
     importGroups,
+    functionStyle = 'both',
   } = options;
 
   const defaultIgnores = [
@@ -225,19 +226,41 @@ export const createBaseConfig = (options: EcomESLintOptions = {}): ESLintConfigA
     },
 
     // Function Style
-    {
-      rules: {
-        'func-style': ['error', 'expression'],
-        'arrow-parens': ['error', 'always'],
-        'no-restricted-syntax': [
-          'error',
-          {
-            selector: 'FunctionDeclaration:not(ClassBody FunctionDeclaration)',
-            message: 'Use arrow functions outside of classes instead of function declarations',
+    (() => {
+      if (functionStyle === 'arrow') {
+        return {
+          rules: {
+            'func-style': ['error', 'expression'],
+            'arrow-parens': ['error', 'always'],
+            'no-restricted-syntax': [
+              'error',
+              {
+                selector: 'FunctionDeclaration:not(ClassBody FunctionDeclaration)',
+                message: 'Use arrow functions outside of classes instead of function declarations',
+              },
+            ],
           },
-        ],
-      },
-    },
+        };
+      }
+      if (functionStyle === 'declaration') {
+        return {
+          rules: {
+            'func-style': ['error', 'declaration', { allowArrowFunctions: false }],
+            // In declaration mode, do not force arrow-only patterns
+            'arrow-parens': ['error', 'always'],
+            'no-restricted-syntax': 'off',
+          },
+        };
+      }
+      // both: allow both forms, keep only neutral formatting around arrows
+      return {
+        rules: {
+          'func-style': 'off',
+          'arrow-parens': ['error', 'always'],
+          'no-restricted-syntax': 'off',
+        },
+      };
+    })(),
 
     // Custom rules override
     applyOverrides({}, { rules }),

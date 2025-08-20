@@ -50,6 +50,14 @@ export interface EcomESLintOptions {
       position?: 'before' | 'after';
     }>;
   };
+
+  /**
+   * Function style preference
+   * - 'arrow': enforce arrow functions and disallow function declarations outside classes
+   * - 'declaration': enforce function declarations and disallow arrow functions
+   * - 'both': allow both styles (default)
+   */
+  functionStyle?: 'arrow' | 'declaration' | 'both';
 }
 
 export type ESLintConfig = TSESLint.FlatConfig.Config;
