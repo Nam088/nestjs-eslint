@@ -39,6 +39,8 @@ export const createJSDocConfig = (options: EcomESLintOptions = {}): ESLintConfig
       'jsdoc/require-param-description': 'warn',
       'jsdoc/require-returns': 'warn',
       'jsdoc/require-returns-description': 'warn',
+      // Keep JSDoc tags ordered consistently
+      'jsdoc/sort-tags': 'warn',
     },
   });
 };
@@ -94,6 +96,7 @@ export const createLodashConfig = (options: EcomESLintOptions = {}): ESLintConfi
 /** Class member organization (Nest-friendly) */
 export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLintConfigArray => {
   if (!options.nestjs) return [];
+  const partitionByComment = options.perfectionist?.partitionByComment ?? true;
   return tseslint.config({
     plugins: { perfectionist: perfectionistPlugin as any },
     rules: {
@@ -105,7 +108,7 @@ export const createClassMemberConfig = (options: EcomESLintOptions = {}): ESLint
           fallbackSort: { type: 'unsorted' },
           ignoreCase: true,
           specialCharacters: 'keep',
-          partitionByComment: true,
+          partitionByComment,
           partitionByNewLine: false,
           newlinesBetween: 'ignore',
           ignoreCallbackDependenciesPatterns: [],
