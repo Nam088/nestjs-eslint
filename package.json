@@ -1,6 +1,6 @@
 {
   "name": "@nam088/nestjs-eslint",
-  "version": "2.1.16",
+  "version": "2.1.17",
   "description": "Shared ESLint configuration for e-commerce projects",
   "type": "module",
   "main": "dist/index.js",
