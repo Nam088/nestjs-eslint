@@ -1,4 +1,4 @@
-# @ecom-co/eslint
+# @nam088/nestjs-eslint
 
 Shared ESLint configuration library for e-commerce projects. This package provides reusable, customizable ESLint configurations to ensure consistent code quality across multiple projects.
 
@@ -18,7 +18,7 @@ Shared ESLint configuration library for e-commerce projects. This package provid
 
 ```bash
 # Install the configuration package (no extra peer deps needed)
-npm install --save-dev @ecom-co/eslint
+npm install --save-dev @nam088/nestjs-eslint
 ```
 
 ## Quick Start
@@ -28,7 +28,7 @@ npm install --save-dev @ecom-co/eslint
 Create `eslint.config.mjs` in your project root:
 
 ```javascript
-import { createBaseConfig } from '@ecom-co/eslint';
+import { createBaseConfig } from '@nam088/nestjs-eslint';
 
 export default createBaseConfig();
 ```
@@ -36,7 +36,7 @@ export default createBaseConfig();
 ### NestJS Configuration
 
 ```javascript
-import { createNestJSConfig } from '@ecom-co/eslint/nestjs';
+import { createNestJSConfig } from '@nam088/nestjs-eslint/nestjs';
 
 export default createNestJSConfig({
   tsconfigRootDir: import.meta.dirname,
@@ -46,7 +46,7 @@ export default createNestJSConfig({
 ### Strict Configuration
 
 ```javascript
-import { createStrictConfig } from '@ecom-co/eslint/strict';
+import { createStrictConfig } from '@nam088/nestjs-eslint/strict';
 
 export default createStrictConfig({
   tsconfigRootDir: import.meta.dirname,
@@ -117,7 +117,7 @@ interface EcomESLintOptions {
 ### Custom Rules Override
 
 ```javascript
-import { createBaseConfig } from '@ecom-co/eslint';
+import { createBaseConfig } from '@nam088/nestjs-eslint';
 
 export default createBaseConfig({
   rules: {
@@ -130,7 +130,7 @@ export default createBaseConfig({
 ### Perfectionist Configuration
 
 ```javascript
-import { createBaseConfig } from '@ecom-co/eslint';
+import { createBaseConfig } from '@nam088/nestjs-eslint';
 
 export default createBaseConfig({
   perfectionist: {
@@ -144,7 +144,7 @@ export default createBaseConfig({
 ### Custom Import Groups
 
 ```javascript
-import { createNestJSConfig } from '@ecom-co/eslint/nestjs';
+import { createNestJSConfig } from '@nam088/nestjs-eslint/nestjs';
 
 export default createNestJSConfig({
   importGroups: {
@@ -167,8 +167,8 @@ export default createNestJSConfig({
 ### Multiple Configurations
 
 ```javascript
-import { createBaseConfig, createJestConfig } from '@ecom-co/eslint';
-import { mergeConfigs } from '@ecom-co/eslint';
+import { createBaseConfig, createJestConfig } from '@nam088/nestjs-eslint';
+import { mergeConfigs } from '@nam088/nestjs-eslint';
 
 const baseConfig = createBaseConfig({
   jest: false, // Disable Jest in base config
@@ -189,7 +189,7 @@ import {
   createNestJSConfig,
   createStrictConfig,
   mergeConfigs,
-} from '@ecom-co/eslint';
+} from '@nam088/nestjs-eslint';
 
 export default mergeConfigs(
   createBaseConfig({
@@ -218,7 +218,7 @@ export default mergeConfigs(
 ### Project-Specific Overrides
 
 ```javascript
-import { createNestJSConfig } from '@ecom-co/eslint/nestjs';
+import { createNestJSConfig } from '@nam088/nestjs-eslint/nestjs';
 
 export default createNestJSConfig({
   tsconfigRootDir: import.meta.dirname,
@@ -240,7 +240,7 @@ export default createNestJSConfig({
 
 ## Available Presets
 
-### Base Configuration (`@ecom-co/eslint`)
+### Base Configuration (`@nam088/nestjs-eslint`)
 - Essential TypeScript rules
 - Import organization with `import-x`
 - Code formatting with `@stylistic`
@@ -248,7 +248,7 @@ export default createNestJSConfig({
 - Basic security rules
 - Perfectionist sorting (optional)
 
-### NestJS Configuration (`@ecom-co/eslint/nestjs`)
+### NestJS Configuration (`@nam088/nestjs-eslint/nestjs`)
 - All base rules
 - NestJS-specific patterns
 - **Advanced Class Member Organization**:
@@ -258,7 +258,7 @@ export default createNestJSConfig({
 - Decorator support
 - Testing configuration
 
-### Strict Configuration (`@ecom-co/eslint/strict`)
+### Strict Configuration (`@nam088/nestjs-eslint/strict`)
 - All base rules
 - Strict TypeScript checking
 - Mandatory JSDoc
@@ -357,7 +357,7 @@ import {
   createJestConfig,
   createSecurityConfig,
   mergeConfigs 
-} from '@ecom-co/eslint';
+} from '@nam088/nestjs-eslint';
 
 export default mergeConfigs(
   createBaseConfig({ jest: false, security: false }),
@@ -389,7 +389,7 @@ module.exports = {
 };
 
 // New eslint.config.mjs
-import { createBaseConfig } from '@ecom-co/eslint';
+import { createBaseConfig } from '@nam088/nestjs-eslint';
 
 export default createBaseConfig({
   rules: {

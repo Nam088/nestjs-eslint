@@ -1,5 +1,5 @@
 {
-  "name": "@ecom-co/eslint",
+  "name": "@nam088/nestjs-eslint",
   "version": "2.1.16",
   "description": "Shared ESLint configuration for e-commerce projects",
   "type": "module",
@@ -43,6 +43,14 @@
     "prepublishOnly": "npm run clean && npm run build",
     "release:patch": "npm version patch && npm publish"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nam088/nestjs-eslint.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nam088/nestjs-eslint/issues"
+  },
+  "homepage": "https://github.com/Nam088/nestjs-eslint#readme",
   "dependencies": {
     "@eslint/js": "^9.18.0",
     "@stylistic/eslint-plugin": "^5.2.3",
@@ -66,8 +74,5 @@
     "@types/node": "^24.2.1",
     "@typescript-eslint/utils": "^8.20.0",
     "typescript": "^5.7.3"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   }
 }
